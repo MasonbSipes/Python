@@ -3,91 +3,51 @@
 # ========== #
 #
 # Notes:
-# 1. What happens when someone enters a wrong number or letter/word?
+# 1. 
 #
 # ========== #
 
 # Importing random and string libraries
-import random
-import string
+import random, string
 
 # Defining different variables to make the password
-lowercase = string.ascii_lowercase
-uppercase = string.ascii_uppercase
-numbers = string.digits
-special = string.punctuation
-ups_special = "!$&"
+lowercase = string.ascii_lowercase * 2
+uppercase = string.ascii_uppercase * 2
+numbers = string.digits * 2
+special = string.punctuation * 2
+none_ambiguous_special = "!$&@"
 
-# Print different levels of severity
-print("------------------------------------")
-print("| Different severity levels:       |")
-print("| 1. Minor (12 characters)         |")
-print("| 2. Intermediate (16 characters)  |")
-print("| 3. Major (32 characters)         |")
-print("------------------------------------")
+# Get length of password
 print()
+print("How long do you want the password to be?")
+print("NOTE: your password can be up to 128 characters long.")
+get_length = int(input())
 
-# Geth input from user for severity level
-choose_severity_level = int(input("Choose a severity level: "))
-print()
+# Check if password is too long
+while True:
+    if get_length > 128:
+        print("Password is too long. Please try again.")
+        get_length = int(input())
+    else:
+        break
 
-# Get input from user for type of password
-is_ups_pw = input("Will this be used as a UPS password?: ")
-print()
+# Check is user needs to avoid ambiguous characters
+print("Need to avoid any ambiguous characters like '%^*()'?")
+avoid_ambiguous_characters = input()
 
-# ==================================================================================================== #
 
-# Definition for option one
-def option_one():
-    if choose_severity_level == 1 and is_ups_pw in ["no", "No", "n", "N"]:
-        severity_one = lowercase + uppercase + numbers + special # combine the data
-        length = int(12)
-        temp = random.sample(severity_one, length) # use random
-        password_one = "".join(temp) # create the password
-        print(f"Your password is: {password_one}") # print the password
+if avoid_ambiguous_characters in ["Y", "Yes", "y", "yes"]:
+    make_password_none_ambiguous = lowercase + uppercase + numbers + none_ambiguous_special
+    length = get_length
+    temp = random.sample(make_password_none_ambiguous, length)
+    password = "".join(temp)
+    print(f"Your password is: {password}")
+    quit()
 
-    elif choose_severity_level == 1 and is_ups_pw in ["yes",  "Yes",  "y",  "Y"]:
-        severity_one = lowercase + uppercase + numbers + ups_special # combine the data
-        length = int(12)
-        temp = random.sample(severity_one, length) # use random
-        password_one = "".join(temp) # create the password
-        print(f"Your password is: {password_one}") # print the password
-option_one()
-
-# ==================================================================================================== #
-
-# Definition for option two
-def option_two():
-    if choose_severity_level == 2 and is_ups_pw in ["no", "No", "n", "N"]:
-        severity_two = lowercase + uppercase + numbers + special # combine the data
-        length = int(16)
-        temp = random.sample(severity_two, length) # use random
-        password_two = "".join(temp) # create the password
-        print(f"Your password is: {password_two}") # print the password
-
-    elif choose_severity_level == 2 and is_ups_pw in ["yes",  "Yes",  "y",  "Y"]:
-        severity_two = lowercase + uppercase + numbers + ups_special # combine the data
-        length = int(16)
-        temp = random.sample(severity_two, length) # use random
-        password_two = "".join(temp) # create the password
-        print(f"Your password is: {password_two}") # print the password
-option_two()
-
-# ==================================================================================================== #
-
-# Definition for option three
-def option_three():
-    if choose_severity_level == 3 and is_ups_pw in ["no", "No", "n", "N"]:
-        severity_three = lowercase + uppercase + numbers + special # combine the data
-        length = int(32)
-        temp = random.sample(severity_three, length) # use random
-        password_three = "".join(temp) # create the password
-        print(f"Your password is: {password_three}") # print the password
-
-    elif choose_severity_level == 3 and is_ups_pw in ["yes",  "Yes",  "y",  "Y"]:
-        severity_three = lowercase + uppercase + numbers + ups_special # combine the data
-        length = int(32)
-        temp = random.sample(severity_three, length) # use random
-        password_three = "".join(temp) # create the password
-        print(f"Your password is: {password_three}") # print the password
-option_three()
+elif avoid_ambiguous_characters in ["N", "No", "n", "no"]:
+    make_password_ambiguous = lowercase + uppercase + numbers + special
+    length = get_length
+    temp = random.sample(make_password_ambiguous, length)
+    password = "".join(temp)
+    print(f"Your password is: {password}")
+    quit()
